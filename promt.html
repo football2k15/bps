@@ -1,0 +1,59 @@
+<body>
+  <div style='text-align:center'>
+    <p id="label"></p>
+    <p>
+      <input type = "text" id="user" value="">
+    </p>
+    <p id="labelPass"></p>
+    <p> <input type = "text" id="pass" value="51515">
+     
+      </p>
+      <input type = "button" id="ok" value="OK" onclick="response()">
+      <input type = "button" value="Cancel" onclick="cancel()">
+      <p id ="credes"> </p>
+  </div>
+    <script>
+    const { ipcRenderer } = require("electron")
+    function cancel() {
+      ipcRenderer.send("closeDialog", "")
+      this.close();
+    }
+    
+    function response() {
+    var obj ={
+          "user": document.getElementById("user").value,
+          "pass": document.getElementById("pass").value
+    };
+      ipcRenderer.send('async', JSON.stringify(obj));
+      //ipcRenderer.send("closeDialog", 4);
+     
+     
+      //this.close();
+    }
+    ipcRenderer.on('async-reply', (event, arg) => {  
+    // Print 2
+    if(arg == true){
+      ipcRenderer.send("closeDialog", "")
+      this.close();
+    }else{
+      document.getElementById("credes").innerHTML = "Wrong Credentials";
+    }
+    
+    // Send sync message to main process
+    //let mainValue = ipcRenderer.sendSync('sync', 3);
+    // Print 4
+    //console.log(mainValue);
+});
+    window.onload=function() {
+      var options = ipcRenderer.sendSync("openDialog", "")
+      var params = JSON.parse(options)
+      document.getElementById("label").innerHTML = params.label;
+      document.getElementById("user").value = params.value;
+      document.getElementById("pass").value = params.valuePas;      
+      document.getElementById("labelPass").innerHTML = params.labelPas;
+      document.getElementById("ok").value = params.ok;
+    }
+    </script>
+    
+
+</body>

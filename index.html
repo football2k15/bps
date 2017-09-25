@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Venom</title>
+
+  
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+    <style>
+        .homeButton{
+            height: 100px;
+            background-color: blue;
+            text-align: center;
+            color: white;
+            margin-top: 15px;
+            font-size: 25px;
+            line-height: 100px
+        }
+        .rows{
+            width: 100%;
+        }
+        
+    </style>
+<div style="width:500px;margin-left:auto;margin-right:auto">
+    <br />
+    <div id="location"></div>
+    <button id="sqlLiteFunction">next</button><br />
+   <div>
+       <div class="rows"><div onclick="invoiceButton();" id="invoiceButton" class="homeButton" style="width:100%">Invoices</div></div> <div id="WorkSpaceButton" class="homeButton" style="width:100%">Work Space</div></div>
+   </div>
+</div>
+<script>require('./siteScript.js')</script>
+<script>
+
+function getIt(){
+    var mainWindow = null;
+    mainWindow = new BrowserWindow({width: 1000, height: 625});
+    mainWindow.loadURL('file://' + __dirname + '/next.html');
+                      
+}
+
+var electron = require('electron');
+var ipc = electron.ipcRenderer;
+
+    var button = document.getElementById('sqlLiteFunction');
+    button.addEventListener('click',function(){
+        ipc.send('show-prefs');
+    })
+    
+    var invoices = document.getElementById('invoiceButton');
+    invoices.addEventListener('click',function(){
+        
+        console.log("Invoices")
+    })
+
+    var WorkSpaceButton = document.getElementById('WorkSpaceButton');
+    WorkSpaceButton.addEventListener('click',function(){
+        
+        console.log("WorkSpaceButton")
+    })
+
+function ePrompt() {
+    var answer = ipc.sendSync("prompt", "")
+    if(answer != "") 
+    document.getElementById("answer").innerHTML = answer;
+}
+</script>
+
+</body>
+</html>

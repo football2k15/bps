@@ -1,0 +1,41 @@
+<html>
+    <head>
+        <title>Hey</title>
+        <script>
+        const electron = require("electron");
+        const ipc = electron.ipcRenderer;
+       
+        
+        document.addEventListener("DOMContentLoaded",function(){
+            ipc.send("mainWindowLoaded")
+            ipc.on("resultSent",function(evt,result){
+                let resultEl = document.getElementById("result");
+                console.log(result);
+                for(var i =0; i< result.length;i++){
+                    resultEl.innerHTML += "First Name:"+result[i].FirstName.toString()+"  Last Name:"+result[i].LastName.toString()+"<br/>"
+                    
+                }
+            })
+        })
+        </script>
+    </head>
+    <body>
+        <p id="result"></p>
+        <input placeholder="First Name" id="FirstName" type="text"/>
+        <input placeholder="Last Name" id="LastName" type="text"/>
+        <input placeholder="Age" id="Age" type="text"/>
+        <button id="sendData">Send Data</button>
+        
+    </body>
+    <script>
+         var click = document.getElementById("sendData");
+    click.addEventListener("click",function(){
+        //mainWindow.webContents.send("customerSubmit",document.getElementById("FirstName").textContent)
+        var firstname = document.getElementById("FirstName");
+        var lastname = document.getElementById("LastName");
+        var age = document.getElementById("Age");
+        var data =JSON.stringify([{"FirstName":firstname.value,"LastName":lastname.value,"Age":age.value}])
+        ipc.send("customerSubmit",data);
+    });
+    </script>
+</html>

@@ -1,0 +1,25 @@
+{
+  "name": "helloelectron",
+  "version": "1.0.0",
+  "description": "First Electron App",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "rebuild": "electron-rebuild -f -w sqlite3",
+    "postinstall": "install-app-deps"
+  },
+  "author": "Elijah Johnson",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^1.7.6",
+    "electron-builder": "^19.30.1",
+    "electron-prebuilt": "^1.4.13",
+    "electron-rebuild": "^1.6.0"
+  },
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "knex": "^0.13.0",
+    "python-shell": "^0.4.0",
+    "sqlite3": "^3.1.12"
+  }
+}
