@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Tutorialzine Electron Experiment</title>
+
+    <link rel="stylesheet" href="./css/jquery.flipster.min.css">
+    <link rel="stylesheet" href="./css/styles.css">
+
+</head>
+<body>
+<!-- 
+<div class="flipster">
+    <ul>
+    </ul>
+</div> -->
+<div style="width:500px;margin-left:auto;margin-right:auto">
+<!-- 
+    <button onclick="openFile();" id="openFile">Open</button>
+    <button id="saveFile" onclick="saveFile();">Save</button><br /> -->
+    <p>Hello Then</p>
+    
+    <br />
+    <div id="location"></div>
+    <button id="sqlLiteFunction">Log Out</button><br />
+    
+   
+
+</div>
+<script>require('./siteScript.js')</script>
+<script>
+ var electron = require('electron');
+var ipc = electron.ipcRenderer;
+    var button = document.getElementById('sqlLiteFunction');
+    button.addEventListener('click',function(){
+        ipc.send('edge');
+    })
+</script>
+</body>
+</html>
