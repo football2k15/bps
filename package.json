@@ -2,7 +2,7 @@
   "name": "helloelectron",
   "version": "1.0.0",
   "description": "First Electron App",
-  "main": "main.js",
+  "main": "filewrite.js",
   "scripts": {
     "start": "electron .",
     "rebuild": "electron-rebuild -f -w sqlite3",
