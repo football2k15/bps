@@ -22,7 +22,7 @@
  <li><a href="#one">Customer Intake</a></li>
  <li><a href="#two">Appointments</a></li>
  <li><a href="#three">Customer Check Out</a></li>
- <li><a href="https://www.bigbrandtire.com">Shop Necessities</a></li>
+ <li><a href="#">Shop Necessities</a></li>
  </ul>
  </nav>
  </div>
@@ -47,23 +47,28 @@
     <section>
     <div class="content">
         <div class="inner">
-                <form method="post" action="#">
+                <form enctype='application/json' id="customer" method="post" action="#">
                     <div class="field half first">
-                        <input placeholder="First Name" type="text" name="name" id="firsName" />
+                        <input placeholder="First Name" type="text" name="CustomerFirstName" id="firsName" />
                     </div>
                     <div class="field half">
-                        <input placeholder="Last Name" type="text" name="LastName" id="lastName" />
+                        <input placeholder="Last Name" type="text" name="CustomerLastName" id="lastName" />
                     </div>
-                    <div class="field half first">
-                            <select>
-                                <option>Vehicle</option>
+                    <div  class="field half first">
+                            <select name="CustomerAddress">
+                                <option value=15151>Vehicle</option>
+                                <option value=15654>Lexus</option>
+                                <option value=15281>BMW</option>
+                                <option value=15431>Dodge</option>
+                                <option value=15566>Honda</option>
+                                <option value=15665>Toyota</option>
                             </select>
                         </div>
                         <div class="field half">
-                            <input placeholder="Last Name" type="text" name="LastName" id="lastName" />
+                            <input placeholder="Address" type="text" name="CustomerAddress" id="address" />
                         </div>
                     <ul class="actions">
-                        <li><a href="#" class="button">Learn more</a></li>
+                        <li><a id="addappointment" href="#" class="button">Add Appoinmetnt</a></li>
                     </ul>
                 </form>
         </div>
@@ -76,7 +81,7 @@
             <h2>Feugiat consequat</h2>
             <p>Phasellus convallis elit id ullamcorper pulvinar. Duis aliquam turpis mauris, eu ultricies erat malesuada quis. Aliquam dapibus.</p>
                 <ul class="actions">
-                    <li><a href="#" class="button">Learn more</a></li>
+                    <li><a id="addTires" class="button">Add Tires</a></li>
                 </ul>
         </div>
     </div>
@@ -209,11 +214,44 @@
  </footer>
 
  <!-- Scripts -->
- <script>window.$ = window.jQuery = require('./assets/js/jquery.min.js');</script>
+<script> window.$ = window.jQuery = require('./assets/js/jquery.min.js');</script>
  <script src="assets/js/jquery.scrollex.min.js"></script>
  <script src="assets/js/jquery.scrolly.min.js"></script>
  <script src="assets/js/skel.min.js"></script>
  <script src="assets/js/util.js"></script>
  <script src="assets/js/main.js"></script>
+ <script>
+        var electron = require('electron');
+        var ipc = electron.ipcRenderer;
+       var add = document.getElementById("addappointment");
+       var form = document.getElementById("customer");
+       const formToJSON = elements => [].reduce.call(elements, (data, element) => {
+        
+        data[element.name] = element.value;
+        return data;
+
+        }, {});
+       add.addEventListener('click',function(){
+        const data =  formToJSON(form.elements)
+        data["CustomerPhoneNumber"] = '805-317-9343'
+        data["CustomerCity"] =  "THOUSAND OAKS"
+        data["CustomerState"] = 'CA'
+        data["CustomerZipCode"] = '93015'
+        data["CustomerEmail"] = 'elijah_j@bigbrandtire.com'
+        data["StoreNumber"] = '05'
+        data["Subtotal"] = '20.50'
+        data["Taxes"] = '5.00'
+        data["Total"] = '25.50'
+        data["AppointmentTime"] = '10/15/2018'
+        data["EmployeeId"] = '2000'
+         ipc.send("makeappointmet",data)
+       });
+
+        var addtires =  document.getElementById('addTires');
+        addtires.addEventListener('click',function(){
+            ipc.sendSync('addtires');
+        })
+      
+    </script>
  </body>
 </html>
